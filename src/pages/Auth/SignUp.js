@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from '../../assets/images/logo.png';
 const SignUp = () => {
@@ -17,7 +18,9 @@ const SignUp = () => {
                 <InputPassword type='password' placeholder='Senha' value={password} onChange = { (e) => setPassword(e.target.value) } required></InputPassword>
                 <InputConfirmPassword type='password' placeholder='Confirmar Senha' value={confirmPassword} onChange = { (e) => setConfirmPassword(e.target.value) } required></InputConfirmPassword>
                 <SignUpButton>Criar conta</SignUpButton>
-                <SignIn>Já possui uma conta? Faça login!</SignIn>
+                <Link to={"/"}>
+                    <SignIn>Já possui uma conta? Faça login!</SignIn>
+                </Link>
             </form>
         </ContainerInput>
     </Geral>

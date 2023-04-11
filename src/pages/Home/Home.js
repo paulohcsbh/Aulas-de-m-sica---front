@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
+
 const Home = () => {
     return(
         <Geral>            
-            <Header/>
             <Main>  
                 <h1>Você que sempre sonhou em tocar o violão <br/>
                 Chegou o seu momento!<br/>
@@ -18,8 +16,7 @@ const Home = () => {
                     <div>Não tenho muito tempo disponível para praticar</div>
                     <div>Quero homenagear um ente querido</div>                   
                 </Section>
-            </Main>  
-            <Footer/>
+            </Main>             
         </Geral>
     )
 }
@@ -28,7 +25,6 @@ const Geral = styled.div`
 width: 100%;
 min-height: 100vh;
 background-color: #e5e5e5;
-padding-top: 1em;
 text-align: center;
 font-family: 'Alkatra', cursive;
 position: relative;
