@@ -14,7 +14,7 @@ const Footer = () => {
 const FooterContainer = styled.div`
 width: 100%;
 height: 3em;
-position: absolute;
+position: relative;
 bottom: 0px;
 left: 0px;
 background-color: black;
