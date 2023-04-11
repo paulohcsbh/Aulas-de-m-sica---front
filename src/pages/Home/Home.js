@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import Header from "../../components/Header";
 
 const Home = () => {
     return(
-        <Geral>            
+        <Geral>  
+            <Header/>          
             <Main>  
                 <h1>Você que sempre sonhou em tocar o violão <br/>
                 Chegou o seu momento!<br/>
