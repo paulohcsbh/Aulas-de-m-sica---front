@@ -1,23 +1,41 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from '../../assets/images/logo.png';
+import axios from "axios";
+
 const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');    
+    const navigate = useNavigate();
+    const [desabilitar, setDesabilitar] = useState(false);
+
+    function signUp(e) {
+        if(password !== confirmPassword){
+            alert("As senhas devem ser iguais!")
+            return;
+        }
+        setDesabilitar(true)
+        
+        e.preventDefault()
+        const requisicao = axios.post("http://localhost:5000/users", { email: email, name: name, password: password })
+        requisicao.then(() => { alert("Cadastro realizado com sucesso!"); setDesabilitar(false); navigate("/") })
+        requisicao.catch(() => { alert("Erro no cadastro!"); setDesabilitar(false) })
+
+    }
     return(
         <Geral> 
             <Logo src={logo} ></Logo>
             <h1>Cadastro do aluno</h1>
         <ContainerInput>
-            <form>
-                <InputName type='name' placeholder='Nome' value={name} onChange = { (e) => setName(e.target.value) } required></InputName>
-                <InputEmail type='email' placeholder='Email' value={email} onChange = { (e) => setEmail(e.target.value) } required></InputEmail>
-                <InputPassword type='password' placeholder='Senha' value={password} onChange = { (e) => setPassword(e.target.value) } required></InputPassword>
-                <InputConfirmPassword type='password' placeholder='Confirmar Senha' value={confirmPassword} onChange = { (e) => setConfirmPassword(e.target.value) } required></InputConfirmPassword>
-                <SignUpButton>Criar conta</SignUpButton>
+            <form onSubmit={signUp}>
+                <InputName type='name' placeholder='Nome' value={name} onChange = { (e) => setName(e.target.value) } required disabled={desabilitar}></InputName>
+                <InputEmail type='email' placeholder='Email' value={email} onChange = { (e) => setEmail(e.target.value) } required disabled={desabilitar}></InputEmail>
+                <InputPassword type='password' placeholder='Senha' value={password} onChange = { (e) => setPassword(e.target.value) } required disabled={desabilitar}></InputPassword>
+                <InputConfirmPassword type='password' placeholder='Confirmar Senha' value={confirmPassword} onChange = { (e) => setConfirmPassword(e.target.value) } required disabled={desabilitar}></InputConfirmPassword>
+                <SignUpButton disabled={desabilitar}>Criar conta</SignUpButton>
                 <Link to={"/"}>
                     <SignIn>Já possui uma conta? Faça login!</SignIn>
                 </Link>

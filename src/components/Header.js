@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from '../assets/images/logo.png';
 const Header = () => {
+    
     return (
         <Top>
             <HeaderContainer>
@@ -11,8 +12,9 @@ const Header = () => {
                     <Item to={'/course'}>Curso</Item>
                     <Item to={'/songs'}>Músicas</Item>
                     <Item to={'/contact'}>Contato</Item>
+                    
                 </NavBar>
-            </HeaderContainer>            
+            </HeaderContainer>
         </Top>
     )
 }
@@ -39,6 +41,7 @@ width: 90%;
 margin: auto;
 display: flex;
 padding: 0 1em;
+position: relative;
 `
 
 const Item = styled(NavLink)`
@@ -63,6 +66,8 @@ border-radius: .8em;
    font-size: .7em;   
    padding: .2em .5em;
 }
+
 `
+
 
 export default Header;

@@ -1,15 +1,27 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
+    const [data, setData] = useState(null);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const promise = axios.get("http://localhost:5000/sessions/user")
+        promise.then((resposta) => { setData(resposta.data); localStorage.setItem("data", JSON.stringify(data))})
+        promise.catch(erro => { console.log(erro.response.data) })
+    }, [data]);
+    
     return(
         <Geral>  
-            <Header/>          
+            <Header/> 
+            {!data ? <h1 style={{ fontSize: "3em", marginTop: "2em", cursor: "pointer" }} onClick={()=> navigate('/')} >FAÇA LOGIN</h1> :         
             <Main>  
                 <h1>Você que sempre sonhou em tocar o violão <br/>
                 Chegou o seu momento!<br/>
                 De uma maneira simples e objetiva você vai tocar suas músicas preferidas.</h1>                        
-                <h2>Em que esse curso pode ajudar você</h2>
+                <h2>Em que esse curso vai ajudar você</h2>
                 <Section>                    
                     <div>Sempre sonhei em tocar o violão</div>
                     <div>Eu não tenho disponibilidade de sair de casa para as aulas</div>
@@ -18,7 +30,9 @@ const Home = () => {
                     <div>Não tenho muito tempo disponível para praticar</div>
                     <div>Quero homenagear um ente querido</div>                   
                 </Section>
-            </Main>             
+            </Main>
+            }
+
         </Geral>
     )
 }

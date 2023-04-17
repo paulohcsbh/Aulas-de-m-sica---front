@@ -1,24 +1,48 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/images/logo.png';
+import axios from 'axios';
+
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [desabilitar, setDesabilitar] = useState(false);
+    const navigate = useNavigate();
+    const [token, setToken] = useState('');    
+
+    useEffect(() => {
+        const getData = localStorage.getItem("data");
+        const dataObject = JSON.parse(getData); 
+        if(dataObject){
+            navigate("/home")
+        }
+    }, [navigate]);
+   
     
+    function login(e) {
+        setDesabilitar(true)
+        
+        console.log(email)
+        e.preventDefault()
+        const requisicao = axios.post("http://localhost:5000/sessions", { email: email, password: password })
+        requisicao.then((a) => { navigate("/home"); console.log(a); setToken(a.data.token); console.log(token); })
+        requisicao.catch(() => { alert("Email ou senha inválidos"); setDesabilitar(false) })
+       
+    }
     return (
         <Geral>
             <Container>
                 <Logo src={logo} alt='Violão'></Logo>
                 <h1>Aprendizado do violão de uma maneira simples e objetiva, totalmente adaptada a você</h1>
                 <ContainerInput>
-                    <form>
-                        <InputEmail type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required disabled = {false}></InputEmail>
-                        <InputPassword type='password' placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value) } required disabled={false}></InputPassword>
-                        <SignInButton>Entrar</SignInButton>
+                    <form onSubmit={login}>
+                        <InputEmail type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required disabled={desabilitar}></InputEmail>
+                        <InputPassword type='password' placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value) } required disabled={desabilitar}></InputPassword>
+                        <SignInButton disabled={desabilitar}>Entrar</SignInButton>
                     </form>
                     <Link to={"/sign-up"}>
-                        <SignUp>Não tem uma conta? Criar conta!</SignUp>
+                        <SignUp >Não tem uma conta? Criar conta!</SignUp>
                     </Link>
                 </ContainerInput>
             </Container>
